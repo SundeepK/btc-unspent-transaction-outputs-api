@@ -1,4 +1,4 @@
-package com.blockchain.api.domain;
+package com.blockchain.api.domain.response;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
