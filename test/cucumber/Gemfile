@@ -6,4 +6,5 @@ source 'http://rubygems.org' do
 	gem 'pry'
 	gem 'json_spec'
 	gem 'process-helper'
+	gem 'rest-client'
 end
