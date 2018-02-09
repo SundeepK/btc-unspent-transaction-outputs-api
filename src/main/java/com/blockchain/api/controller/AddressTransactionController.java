@@ -1,6 +1,7 @@
 package com.blockchain.api.controller;
 
-import com.blockchain.api.domain.UnspentTransactionOutputs;
+import com.blockchain.api.domain.response.UnspentTransactionOutputs;
+import com.blockchain.api.exception.NotFoundException;
 import com.blockchain.api.services.AddressService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +24,7 @@ public class AddressTransactionController {
 
     @RequestMapping(value = "/unspent/{bitcoinAddr}", method = GET)
     @ResponseBody
-    public UnspentTransactionOutputs getUnspentTransactionOutputs(@PathVariable String bitcoinAddr) {
+    public UnspentTransactionOutputs getUnspentTransactionOutputs(@PathVariable String bitcoinAddr) throws NotFoundException {
            return addressService.getUnspentTransactions(bitcoinAddr);
     }
 
