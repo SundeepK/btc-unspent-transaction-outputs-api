@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.client.HttpStatusCodeException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,6 +22,13 @@ import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
 public class ExceptionHandlerController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionHandlerController.class);
+
+    @ExceptionHandler
+    @ResponseStatus(value=HttpStatus.NOT_FOUND)
+    @ResponseBody
+    public ErrorResponse requestHandlingNoHandlerFound(HttpServletRequest request, final NoHandlerFoundException ex) {
+        return new ErrorResponse("Not found");
+    }
 
     @ExceptionHandler(AddressFormatException.class)
     @ResponseBody
