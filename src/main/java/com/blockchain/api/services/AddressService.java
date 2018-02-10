@@ -8,25 +8,33 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+import validation.BitcoinAddress;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @Component
 public class AddressService {
 
     private static final Logger logger = LoggerFactory.getLogger(AddressService.class);
     private final RestTemplate restTemplate;
-    private final String blockChainApiBaseUrl;
+    private final URL blockChainApiBaseUrl;
+    private final BitcoinAddress bitcoinAddress;
 
     @Autowired
     public AddressService(final RestTemplate restTemplate,
-                          @Value("${blockchain.api.base.url}") final String blockChainApiBaseUrl) {
+                          @Value("${blockchain.api.base.url}") final String blockChainApiBaseUrl,
+                          final BitcoinAddress bitcoinAddress) throws MalformedURLException {
         this.restTemplate = restTemplate;
-        this.blockChainApiBaseUrl = blockChainApiBaseUrl;
+        this.blockChainApiBaseUrl = new URL(blockChainApiBaseUrl);
+        this.bitcoinAddress = bitcoinAddress;
+        logger.info("url " + blockChainApiBaseUrl);
     }
 
     public UnspentTransactionOutputs getUnspentTransactions(String address) {
-        logger.info("url " + blockChainApiBaseUrl);
+        bitcoinAddress.validateAddress(address);
         String unspentOutputsUri = UriComponentsBuilder
-                .fromUriString(blockChainApiBaseUrl)
+                .fromUriString(blockChainApiBaseUrl.toString())
                 .path("unspent")
                 .queryParam("active", address)
                 .build()

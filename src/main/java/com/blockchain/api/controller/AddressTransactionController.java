@@ -2,7 +2,6 @@ package com.blockchain.api.controller;
 
 import com.blockchain.api.domain.response.UnspentTransactionOutputs;
 import com.blockchain.api.services.AddressService;
-import org.bitcoinj.core.Address;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,17 +15,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.GET;
 @RequestMapping("/address")
 public class AddressTransactionController {
 
-    private AddressService addressService;
+    private final AddressService addressService;
 
-    public AddressTransactionController(AddressService addressService) {
+    public AddressTransactionController(final AddressService addressService) {
         this.addressService = addressService;
     }
 
     @RequestMapping(value = "/{bitcoinAddr}", method = GET)
     @ResponseBody
     public UnspentTransactionOutputs getUnspentTransactionOutputs(@PathVariable String bitcoinAddr) {
-           Address.fromBase58(null, bitcoinAddr);
-           return addressService.getUnspentTransactions(bitcoinAddr);
+        return addressService.getUnspentTransactions(bitcoinAddr);
     }
 
 }
