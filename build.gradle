@@ -49,6 +49,16 @@ sourceSets {
     }
 }
 
+task acceptanceTest(type: Exec, dependsOn: ["assemble", "test"]) { thisTask ->
+    group = "verification"
+    description = "Runs the acceptance tests"
+
+    commandLine "test/cucumber/test.sh"
+
+    check.dependsOn(thisTask)
+}
+
+
 dependencies {
     compile("org.springframework.boot:spring-boot-starter-web")
     compile("org.springframework:spring-web")
