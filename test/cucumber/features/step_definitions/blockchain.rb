@@ -31,12 +31,12 @@ def last_json
   @response
 end
 
-Given(/^([^"]*) is unkown$/) do |address|
+Given(/^([^"]*) returns an error response$/) do |address|
   RestAssured::Double.create(
       :verb => 'GET',
       :fullpath => "/unspent?active=#{address}",
       :status => 500,
       :response_headers => { 'Content-Type' => 'text/plain' },
-      :content => 'Invalid Bitcoin Address'
+      :content => 'Blockchain Internal Server Error.'
   )
 end
