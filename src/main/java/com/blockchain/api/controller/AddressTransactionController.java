@@ -22,7 +22,7 @@ public class AddressTransactionController {
         this.addressService = addressService;
     }
 
-    @RequestMapping(value = "/unspent/{bitcoinAddr}", method = GET)
+    @RequestMapping(value = "/{bitcoinAddr}", method = GET)
     @ResponseBody
     public UnspentTransactionOutputs getUnspentTransactionOutputs(@PathVariable String bitcoinAddr) {
            Address.fromBase58(null, bitcoinAddr);
