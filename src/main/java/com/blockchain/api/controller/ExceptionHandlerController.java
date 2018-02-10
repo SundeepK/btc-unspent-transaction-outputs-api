@@ -1,7 +1,7 @@
 package com.blockchain.api.controller;
 
 import com.blockchain.api.domain.error.ErrorResponse;
-import com.blockchain.api.exception.NotFoundException;
+import org.bitcoinj.core.AddressFormatException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -22,20 +22,21 @@ public class ExceptionHandlerController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionHandlerController.class);
 
-    @ExceptionHandler(NotFoundException.class)
+    @ExceptionHandler(AddressFormatException.class)
     @ResponseBody
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ErrorResponse handleNotFound(HttpServletRequest request, Exception e) {
-        logger.warn("Could not find url={}", getRequestUrl(request), e);
-        return new ErrorResponse("Resource not found.");
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleAddressFormatException(HttpServletRequest request, Exception e) {
+        logger.warn("Could not validate bitcoin address with url={}", getRequestUrl(request), e);
+        return new ErrorResponse(e.getMessage());
     }
 
     @ExceptionHandler(HttpStatusCodeException.class)
     @ResponseBody
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-    public ErrorResponse handleHttpStatusCodeException(HttpServletRequest request, Exception e) {
-        logger.warn("Internal error url={}", getRequestUrl(request), e);
-        return new ErrorResponse(e.getMessage());
+    public ErrorResponse handleHttpStatusCodeException(HttpServletRequest request, HttpStatusCodeException e) {
+        String blockChainApiError = e.getResponseBodyAsString();
+        logger.warn("Internal error url={} with response {}", getRequestUrl(request), blockChainApiError, e);
+        return new ErrorResponse(blockChainApiError);
     }
 
     @ExceptionHandler(Exception.class)

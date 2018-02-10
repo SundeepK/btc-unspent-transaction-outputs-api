@@ -1,15 +1,11 @@
 package com.blockchain.api.services;
 
 import com.blockchain.api.domain.response.UnspentTransactionOutputs;
-import com.blockchain.api.exception.NotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.HttpServerErrorException;
-import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -27,7 +23,7 @@ public class AddressService {
         this.blockChainApiBaseUrl = blockChainApiBaseUrl;
     }
 
-    public UnspentTransactionOutputs getUnspentTransactions(String address) throws NotFoundException {
+    public UnspentTransactionOutputs getUnspentTransactions(String address) {
         logger.info("url " + blockChainApiBaseUrl);
         String unspentOutputsUri = UriComponentsBuilder
                 .fromUriString(blockChainApiBaseUrl)
@@ -36,17 +32,7 @@ public class AddressService {
                 .build()
                 .toUriString();
         logger.info("Calling url " + unspentOutputsUri);
-
-        try {
-            return restTemplate.getForObject(unspentOutputsUri, UnspentTransactionOutputs.class);
-        } catch (HttpStatusCodeException exception) {
-            if (exception.getResponseBodyAsString().contains("Invalid Bitcoin Address")) {
-                throw new NotFoundException("Bitcoin address not found");
-            } else {
-                throw new HttpServerErrorException(HttpStatus.INTERNAL_SERVER_ERROR, exception.getResponseBodyAsString());
-            }
-        }
-
+        return restTemplate.getForObject(unspentOutputsUri, UnspentTransactionOutputs.class);
     }
 
 }
