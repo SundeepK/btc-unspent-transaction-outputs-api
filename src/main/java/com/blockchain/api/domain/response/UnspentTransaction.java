@@ -13,13 +13,13 @@ import java.util.Objects;
 public class UnspentTransaction {
     
     private String txHash;
-    private String outputIdx;
-    private String value;
+    private int outputIdx;
+    private long value;
 
     @JsonCreator
     public UnspentTransaction(@JsonProperty("tx_hash") String txHash,
-                              @JsonProperty("tx_output_n")  String outputIdx,
-                              @JsonProperty("value")  String value) {
+                              @JsonProperty("tx_output_n")  int outputIdx,
+                              @JsonProperty("value")  long value) {
         this.txHash = txHash;
         this.outputIdx = outputIdx;
         this.value = value;
@@ -29,11 +29,11 @@ public class UnspentTransaction {
         return txHash;
     }
 
-    public String getOutputIdx() {
+    public int getOutputIdx() {
         return outputIdx;
     }
 
-    public String getValue() {
+    public long getValue() {
         return value;
     }
 
