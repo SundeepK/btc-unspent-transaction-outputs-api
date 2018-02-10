@@ -1,4 +1,4 @@
-package validation;
+package com.blockchain.api.bitcoin;
 
 import org.bitcoinj.core.Address;
 import org.springframework.stereotype.Component;

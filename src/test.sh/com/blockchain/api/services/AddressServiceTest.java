@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.web.client.RestTemplate;
-import validation.BitcoinAddress;
+import com.blockchain.api.bitcoin.BitcoinAddress;
 
 import java.net.MalformedURLException;
 import java.util.Collections;
