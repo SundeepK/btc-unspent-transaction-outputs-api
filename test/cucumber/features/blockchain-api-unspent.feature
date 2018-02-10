@@ -3,7 +3,7 @@ Feature:
   I want to get unspent transaction outputs
   SO that I can make applications based around unspent transaction outputs
 
-  Scenario: Blockchain api returns unspent transaction outputs
+  Scenario: Api returns unspent transaction outputs
     Given 1H8TqpBY4V9fWQyKBUtWPWxRcgy1Qxcb1U has following unspent output transactions
       | tx_hash                                                          | value    | output_idx | confirmations | tx_index |
       | 1236dd2e9494fd9a93c6b6c57e141520e29b4600c56abbdc295d4858ef182e48 | 9000     | 0          | 12000000000   | 1        |
@@ -34,23 +34,33 @@ Feature:
       }
       """
 
-  Scenario: Blockchain api returns 400 for unknown address
+  Scenario: Api returns 400 for unknown address
     When I get address/unspent/1H1aQ4bZC1Pr9etkbUzebJkh5K98
     Then response is a "400"
     And the JSON should be:
       """
       {
-        "message": "Checksum does not validate"
+        "error": "Checksum does not validate"
       }
       """
 
-  Scenario: Blockchain api returns 500 when error fetching unspent outputs
+  Scenario: Api returns 404 for unknown path
+    When I get address/unspent/unkown/1H1aQ4bZC1Pr9etkbUzebJkh5K98
+    Then response is a "404"
+    And the JSON should be:
+      """
+      {
+        "error": "Not found"
+      }
+      """
+
+  Scenario: Api returns 500 when error fetching unspent outputs
     Given 1H8TqpBY4V9fWQyKBUtWPWxRcgy1Qxcb1U returns an error response
     When I get address/unspent/1H8TqpBY4V9fWQyKBUtWPWxRcgy1Qxcb1U
     Then response is a "500"
     And the JSON should be:
       """
       {
-        "message": "Blockchain Internal Server Error."
+        "error": "Blockchain Internal Server Error"
       }
       """

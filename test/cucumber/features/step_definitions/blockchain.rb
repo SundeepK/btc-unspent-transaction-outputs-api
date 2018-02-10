@@ -37,6 +37,6 @@ Given(/^([^"]*) returns an error response$/) do |address|
       :fullpath => "/unspent?active=#{address}",
       :status => 500,
       :response_headers => { 'Content-Type' => 'text/plain' },
-      :content => 'Blockchain Internal Server Error.'
+      :content => 'Blockchain Internal Server Error'
   )
 end
