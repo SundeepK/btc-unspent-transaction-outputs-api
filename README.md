@@ -35,7 +35,7 @@ This will execute the Java unit tests and also run the cucumber acceptance tests
 
 To run the api execute the `run` script in the root of the project:
 ```sh 
-    $ ./run
+    $ ./run.sh
 ```
 
 It is also possible to run the api directly through gradle:
