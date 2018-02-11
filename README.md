@@ -28,5 +28,17 @@ To build the project run:
 ```
 This will execute the Java unit tests and also run the cucumber acceptance tests. To just build a jar file and run the unit tests only run:
 ```sh
-    ./gradlew build -x acceptanceTest
+    $ ./gradlew build -x acceptanceTest
+```
+
+## Running api
+
+To run the api execute the `run` script in the root of the project:
+```sh 
+    $ ./run
+```
+
+It is also possible to run the api directly through gradle:
+```sh
+    $ ./gradlew bootRun -Dspring.profiles.active=prod
 ```
