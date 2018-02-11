@@ -44,18 +44,19 @@ task runMain(type: JavaExec) {
 sourceSets {
     test {
         java {
-            srcDirs = ["src/test.sh"]
+            srcDirs = ["src/test"]
         }
     }
 }
 
-task acceptanceTest(type: Exec, dependsOn: ["assemble", "test"]) { thisTask ->
+task acceptanceTest(type: Exec, dependsOn: ["assemble"]) { thisTask ->
     group = "verification"
     description = "Runs the acceptance tests"
 
     commandLine "test/cucumber/test.sh"
 
     check.dependsOn(thisTask)
+    thisTask.mustRunAfter(test)
 }
 
 
