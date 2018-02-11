@@ -8,7 +8,7 @@ class UnderTest
   end
 
   def start
-    @process.start(["#{BASE_DIR}/run.sh"], /(Tomcat started)/)
+    @process.start(["#{BASE_DIR}/run.sh cucumber"], /(Tomcat started)/)
   end
 
   def kill
